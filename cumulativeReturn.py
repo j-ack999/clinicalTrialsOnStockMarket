@@ -4,6 +4,12 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from datetime import timedelta
 
+
+## note to self for when you return to this code ##
+
+# widened data is data centred around the announcement date 
+
+
 def event_window(ticker, announcementDate):
 
     announcementDate = pd.to_datetime(announcementDate)
@@ -18,11 +24,12 @@ def event_window(ticker, announcementDate):
     widened_data['Cumulative Return'] = (1 + widened_data['Return']).cumprod() - 1 
     
     announcement_idx = widened_data.index.get_indexer([announcementDate], method='nearest')[0]
-    baseline = widened_data['Cumulative Return'].iloc[announcement_idx]
+    baseline_idx = max(announcement_idx - 1, 0)
+    baseline = widened_data['Cumulative Return'].iloc[baseline_idx]
     widened_data['Cumulative Return'] = widened_data['Cumulative Return'] - baseline
 
 
-    plot_data = widened_data.dropna()
+    plot_data = widened_data.dropna() # drop all the rows with NaN values, which will be the first row since it has no return value
     plt.plot(plot_data.index, plot_data['Cumulative Return'] * 100)
     plt.title(ticker)
     plt.axvline(x=pd.Timestamp(announcementDate), color='red', linestyle='--', label='Announcement Day') # plot a vertical line at the date where the announcement was made 
@@ -44,7 +51,7 @@ def big_change(ticker, rangeStartDate, rangeEndDate): # use this function to loo
 
 
     full_data['Returns'] = full_data['Close'].pct_change()
-    full_data['Returns'] = full_data['Returns'].clip(lower=-0.9, upper=0.9)
+    full_data['Returns'] = full_data['Returns'].clip(lower=-0.9, upper=0.9) # clipping the returns to avoid outliers, for example stock splits
 
     return [
         full_data['Returns'].nsmallest(10),
@@ -53,20 +60,12 @@ def big_change(ticker, rangeStartDate, rangeEndDate): # use this function to loo
     
 ## FIND TOP GAIN / LOSS AND TRACE 
 
-print(big_change('CTMX','2020-01-01','2025-01-01'))
+print(big_change('BIIB','2021-01-01','2022-01-01'))
 
 
 
 ## FIND THE PRICE CHANGES FOR THE ANNOUNCEMENTS AND PLOT THEM ## 
-
+# note that the format here is year month day 
 # pfizer = event_window('PFE','2020-11-09') 
 # bmy = event_window('BMY','2016-08-05') 
-
-
-
-
-
-
-
-
-
+BIIB = event_window('BIIB','2021-06-07')
