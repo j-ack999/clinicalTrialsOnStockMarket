@@ -1,4 +1,5 @@
-# Summer-Project---Quant-Research-
+# clinicalTrialsOnStockMarket
+
 
 As of 03/06/26, the first thing I am doing is researching a stock and also reading some academic papers around abnormal stock returns based on the results of clinical trials. So far, I am reading a paper titled: 'Stock Market Returns and Clinical Trial Results of Investigational Compounds: An Event Study Analysis of Large Biopharmaceutical Companies'. This paper is written by Thomas J. Hwang, and was published 7th August 2013. It looks at seven large American biopharmaceutical companies, namely Amgen (AMGN), Biogen Idec (BIIB), Bristol-Myers Squibb (BMY), Eli Lilly & Co. (LLY), Gilead Sciences (GILD), Merck (MRK) and Pfixer (PFE).
 
